@@ -1,6 +1,8 @@
-from Project.initializing_state import initializing_state
+from Project.StartupState import StartupState
 
-class state_machine:
+
+
+class StateMachine:
     """
     The state machine that mimics the functionality of Pepper from a higher level.
     """
@@ -14,7 +16,7 @@ class state_machine:
         """
 
         self.robot = robot
-        self._next_state = initializing_state(self.robot)
+        self._next_state = StartupState(self.robot)
 
     def run(self):
         while self._next_state is not None:

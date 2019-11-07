@@ -1,8 +1,8 @@
-from Project.initialized_state import initialized_state
-from Project.state import state
+from Project.InitializedState import InitializedState
+from Project.State import State
 
-class initializing_state(state):
 
+class StartupState(State):
     _next_state = None
 
     def __init__(self, robot):
@@ -14,9 +14,9 @@ class initializing_state(state):
         Handle events that are delegated to the current state.
         """
 
-        self._next_state = initialized_state(self.robot)
-
         self.robot.ALTextToSpeech.say("Initializing")
+
+        self._next_state = InitializedState(self.robot)
 
     def next_state(self):
         """

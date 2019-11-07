@@ -1,4 +1,4 @@
-from Project.state_machine import state_machine
+from Project.StateMachine import StateMachine
 from lib.PepperConfiguration import PepperConfiguration
 from lib.Robot import Robot
 
@@ -8,5 +8,5 @@ robot = Robot(config)
 
 
 if __name__ == "__main__":
-    machine = state_machine(robot)
+    machine = StateMachine(robot)
     machine.run()
