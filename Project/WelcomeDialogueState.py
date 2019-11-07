@@ -1,7 +1,11 @@
+import time
+
 from Project.State import State
+from dialog import Dialog
 from Project.InitializedState import InitializedState
 
-class StartupState(State):
+
+class WelcomeDialogueState(State):
     _next_state = None
 
     def __init__(self, robot):
@@ -12,8 +16,16 @@ class StartupState(State):
         """
         Handle events that are delegated to the current state.
         """
+        print "starting dialogue"
+        dialog = Dialog(self.robot)
 
-        self.robot.ALTextToSpeech.say("Initializing")
+        topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pitty")
+
+        dialog.start_topic(topic_name)
+        time.sleep(20)
+        dialog.stop_topic(topic_name)
+
+        dialog.close_session()
 
         self._next_state = InitializedState(self.robot)
 
