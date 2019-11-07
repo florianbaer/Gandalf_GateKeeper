@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from PepperConfiguration import PepperConfiguration
-from naoqi import qi
+import qi
 from naoqi_proxy_python_classes.ALAnimatedSpeech import ALAnimatedSpeech
 from naoqi_proxy_python_classes.ALAudioDevice import ALAudioDevice
 from naoqi_proxy_python_classes.ALAudioPlayer import ALAudioPlayer
