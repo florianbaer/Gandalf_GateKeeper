@@ -19,12 +19,12 @@ class waiting_for_face(state):
 
         val = self.robot.ALMemory.getData(self.memValue)
         # A simple loop that reads the memValue and checks whether faces are detected.
-        while (val and isinstance(val, list) and len(val) >= 2):
+        while not (val and isinstance(val, list) and len(val) >= 2):
             time.sleep(0.5)
             val = self.robot.ALMemory.getData(self.memValue)
 
             # Check whether we got a valid output.
-            self.robot.ALTextToSpeech.say("face found. face palm!")
+            self.robot.ALTextToSpeech.say("face found.")
 
 
     def next_state(self):
