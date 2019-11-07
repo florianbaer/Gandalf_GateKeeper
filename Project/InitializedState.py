@@ -1,8 +1,10 @@
-from Project.state import state
-from Project.waiting_for_face import waiting_for_face
+from Project.State import State
+from Project.WaitingForFace import WaitingForFace
 
 
-class initialized_state(state):
+class InitializedState(State):
+    _next_state = None
+
     def __init__(self, robot):
         self.robot = robot
         self.session = self.robot.session
@@ -13,8 +15,10 @@ class initialized_state(state):
         """
         self.robot.ALTextToSpeech.say("Initialized")
 
+        self._next_state = WaitingForFace(self.robot)
+
     def next_state(self):
         """
         Sets the next state (or None) for the state machine.
         """
-        return waiting_for_face(self.robot)
+        return self._next_state

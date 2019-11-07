@@ -1,4 +1,4 @@
-class state:
+class State:
     """
     Defines the state of the pepper application
     """

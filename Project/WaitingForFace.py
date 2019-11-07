@@ -1,10 +1,11 @@
 import time
 
-from Project.state import state
+from Project.State import State
 
 
-class waiting_for_face(state):
+class WaitingForFace(State):
     memValue = "FaceDetected"
+
     def __init__(self, robot):
         self.robot = robot
         self.session = self.robot.session
@@ -23,8 +24,8 @@ class waiting_for_face(state):
             time.sleep(0.5)
             val = self.robot.ALMemory.getData(self.memValue)
 
-            # Check whether we got a valid output.
-            self.robot.ALTextToSpeech.say("face found.")
+        # Check whether we got a valid output.
+        self.robot.ALTextToSpeech.say("face found.")
 
 
     def next_state(self):
