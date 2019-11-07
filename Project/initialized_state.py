@@ -1,4 +1,5 @@
 from Project.state import state
+from Project.waiting_for_face import waiting_for_face
 
 
 class initialized_state(state):
@@ -16,4 +17,4 @@ class initialized_state(state):
         """
         Sets the next state (or None) for the state machine.
         """
-        pass
+        return waiting_for_face(self.robot)
