@@ -21,7 +21,7 @@ class WelcomeDialogueState(State):
 
         # simple yes no question
         topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pity")
-        answer = dialog.ask_yes_no_question(topic_name)
+        dialog.ask_yes_no_question(topic_name)
         time.sleep(20)
         dialog.stop_topic(topic_name)
         dialog.close_session()
