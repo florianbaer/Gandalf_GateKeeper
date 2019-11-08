@@ -19,6 +19,6 @@ class InitializedState(State):
 
     def next_state(self):
         """
-        Sets the next state (or None) for the state machine.
+        Returns the next state (or None) for the state machine.
         """
         return self._next_state

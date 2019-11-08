@@ -1,8 +1,8 @@
 from Project.State import State
-from Project.InitializedState import InitializedState
+from dialog import Dialog
 
 
-class StartupState(State):
+class IntentionRecognizedState(State):
     _next_state = None
 
     def __init__(self, robot):
@@ -13,10 +13,9 @@ class StartupState(State):
         """
         Handle events that are delegated to the current state.
         """
+        self.robot.ALTextToSpeech.say("Please show me your validation card.")
 
-        self.robot.ALTextToSpeech.say("Initializing")
 
-        self._next_state = InitializedState(self.robot)
 
     def next_state(self):
         """

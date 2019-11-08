@@ -8,7 +8,6 @@ class WaitingForFaceState(State):
     memValue = "FaceDetected"
     _next_state = None
 
-
     def __init__(self, robot):
         self.robot = robot
         self.session = self.robot.session
@@ -17,9 +16,8 @@ class WaitingForFaceState(State):
         """
         Handle events that are delegated to the current state.
         """
-        print "Waiting for face"
 
-        self.robot.ALFaceDetection.subscribe("Test_Face", 2000, 0.0 )
+        self.robot.ALFaceDetection.subscribe("Test_Face", 2000, 0.0)
 
         val = self.robot.ALMemory.getData(self.memValue)
         # A simple loop that reads the memValue and checks whether faces are detected.
@@ -34,8 +32,8 @@ class WaitingForFaceState(State):
 
     def next_state(self):
         """
-        Sets the next state (or None) for the state machine.
+        Returns the next state (or None) for the state machine.
         """
 
         self.robot.ALFaceDetection.unsubscribe("Test_Face")
-        pass
+        return self._next_state

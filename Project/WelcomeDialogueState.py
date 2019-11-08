@@ -1,8 +1,8 @@
 import time
 
+from Project.IntentionRecognizedState import IntentionRecognizedState
 from Project.State import State
 from dialog import Dialog
-from Project.InitializedState import InitializedState
 
 
 class WelcomeDialogueState(State):
@@ -19,18 +19,24 @@ class WelcomeDialogueState(State):
         print "starting dialogue"
         dialog = Dialog(self.robot)
 
-        topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pitty")
-
-        dialog.start_topic(topic_name)
+        # simple yes no question
+        topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pity")
+        answer = dialog.ask_yes_no_question(topic_name)
         time.sleep(20)
         dialog.stop_topic(topic_name)
-
         dialog.close_session()
 
-        self._next_state = InitializedState(self.robot)
+        # if answer YES set next state to IntentionRecognizedState
+        if answer == 1:
+            self._next_state = IntentionRecognizedState(self.robot)
+
+        # else set next state to InitializedState
+        else:
+            from Project.InitializedState import InitializedState
+            self.next_state = InitializedState(self.robot)
 
     def next_state(self):
         """
-        Sets the next state (or None) for the state machine.
+        Returns the next state (or None) for the state machine.
         """
         return self._next_state
