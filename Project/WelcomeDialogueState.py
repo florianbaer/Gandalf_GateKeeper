@@ -26,14 +26,8 @@ class WelcomeDialogueState(State):
         dialog.stop_topic(topic_name)
         dialog.close_session()
 
-        # if answer YES set next state to IntentionRecognizedState
-        if answer == 1:
-            self._next_state = IntentionRecognizedState(self.robot)
-
-        # else set next state to InitializedState
-        else:
-            from Project.InitializedState import InitializedState
-            self.next_state = InitializedState(self.robot)
+        from Project.InitializedState import InitializedState
+        self.next_state = InitializedState(self.robot)
 
     def next_state(self):
         """
