@@ -14,7 +14,7 @@ class State:
 
     def next_state(self):
         """
-        Sets the next state (or None) for the state machine.
+        Returns the next state (or None) for the state machine.
         """
         pass
 

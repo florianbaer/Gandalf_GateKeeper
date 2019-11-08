@@ -1,5 +1,5 @@
 from Project.State import State
-from Project.WaitingForFace import WaitingForFace
+from Project.WaitingForFaceState import WaitingForFaceState
 
 
 class InitializedState(State):
@@ -15,10 +15,10 @@ class InitializedState(State):
         """
         self.robot.ALTextToSpeech.say("Initialized")
 
-        self._next_state = WaitingForFace(self.robot)
+        self._next_state = WaitingForFaceState(self.robot)
 
     def next_state(self):
         """
-        Sets the next state (or None) for the state machine.
+        Returns the next state (or None) for the state machine.
         """
         return self._next_state

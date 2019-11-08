@@ -1,7 +1,6 @@
 from Project.StartupState import StartupState
 
 
-
 class StateMachine:
     """
     The state machine that mimics the functionality of Pepper from a higher level.
