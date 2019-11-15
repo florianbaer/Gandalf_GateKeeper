@@ -1,4 +1,4 @@
-import Constants
+import constants
 
 class Camera:
 
