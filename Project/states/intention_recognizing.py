@@ -1,5 +1,6 @@
-from Project.excercises import Dialog
 import logging
+
+from Project.excercises.dialog import Dialog
 
 
 def intention_recognizing(gandalf):
@@ -7,6 +8,10 @@ def intention_recognizing(gandalf):
 
     log.debug("starting dialogue")
     dialog = Dialog(gandalf.robot)
+
+    # configure text to speech
+    gandalf.robot.ALTextToSpeech.setVolume(0.5)
+    gandalf.robot.ALTextToSpeech.setLanguage("English")
 
     # simple yes no question
     topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pity")
@@ -26,4 +31,3 @@ def intention_recognizing(gandalf):
         gandalf.trigger("validate_entry")
     else:
         gandalf.trigger("re_initialize")
-
