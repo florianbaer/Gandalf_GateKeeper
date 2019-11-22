@@ -7,7 +7,6 @@ def initializing(gandalf):
 
     # configure text to speech
     gandalf.robot.ALTextToSpeech.setVolume(0.5)
-    gandalf.robot.ALTextToSpeech.setLanguage("English")
     gandalf.robot.ALTextToSpeech.say(say)
 
     # trigger next state

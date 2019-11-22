@@ -7,7 +7,7 @@ from Project.excercises.file_transfer import FileTransfer
 
 def validation_card_reading(gandalf):
     remote_folder_path = "/home/nao/recordings/cameras/"
-    file_name = "gatekeeper_" + str(time.time()) + ".jpg"
+    file_name = "gatekeeper.jpeg"
     local = "/Users/jabbathegut/Downloads/" + file_name
     camera = Camera(gandalf.robot)
 
@@ -16,9 +16,7 @@ def validation_card_reading(gandalf):
     gandalf.robot.ALTextToSpeech.setLanguage("English")
     gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card.")
     gandalf.robot.ALTextToSpeech.say("Please hold your card in front of my eyes and keep it still.")
-
     time.sleep(2)
-
     gandalf.robot.ALTextToSpeech.say("Now I'm taking the picture.")
 
     # take a picture
@@ -31,26 +29,33 @@ def validation_card_reading(gandalf):
     file_transfer.close()
 
     # analyse card
-    img = cv2.imread(remote_folder_path)
+    img = cv2.imread(local)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    lower_color = np.array([136, 185, 171])
-    upper_color = np.array([160, 255, 255])
+    lower_color = np.array([135, 100, 130])
+    upper_color = np.array([167, 255, 255])
     mask = cv2.inRange(hsv, lower_color, upper_color)
-    contours = cv2.findContours(mask, 1, 2)
+    contours, h = cv2.findContours(mask, 1, 2)
 
-    if len(contours) == 0:
-        gandalf.robot.ALTextToSpeech.say("No Shape")
-        gandalf.robot.ALTextToSpeech.say("I'm sorry, but I couldn't detect your card.")
+    # just used for testing purposes
+    cv2.imshow('img', img)
+    cv2.imshow('hsv', hsv)
+    cv2.imshow('mask', mask)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    triangle_detected = False
+    square_detected = False
+
+    for cnt in contours:
+        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        if len(approx) == 3:
+            triangle_detected = True
+        elif len(approx) == 4:
+            square_detected = True
+
+    if triangle_detected:
+        gandalf.robot.ALTextToSpeech.say("Perfect, enjoy your stay.")
+    elif square_detected:
+        gandalf.robot.ALTextToSpeech.say("I'm sorry, but I can't grant you access... Please go ahead.")
     else:
-        for cnt in contours:
-            approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
-            # If shape is triangle return 0
-            # If shape is circle return 1
-            # If shape is not detected return 2
-            if len(approx) == 3:
-                gandalf.robot.ALTextToSpeech.say("Perfect, enjoy your stay.")
-                break
-            elif len(approx) > 10:
-                gandalf.robot.ALTextToSpeech.say("I'm sorry, but I can't grant you access... Please go ahead.")
-                break
-
+        gandalf.robot.ALTextToSpeech.say("I didn't recognize anything.")

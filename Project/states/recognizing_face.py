@@ -15,18 +15,18 @@ def _face_already_known(gandalf, val):
     return None
 
 def recognizing_face(gandalf):
-    faceDetectedMemValue = "FaceDetected"
+    face_detected_mem_value = "FaceDetected"
 
     logging.info("recognizing face")
     gandalf.robot.ALFaceDetection.subscribe("Test_Face", 2000, 0.0)
 
-    val = gandalf.robot.ALMemory.getData(faceDetectedMemValue)
+    val = gandalf.robot.ALMemory.getData(face_detected_mem_value)
     name = None
 
     # A simple loop that reads the memValue and checks whether faces are detected.
     while not (val and isinstance(val, list) and len(val) >= 2):
         time.sleep(0.5)
-        val = gandalf.robot.ALMemory.getData(faceDetectedMemValue)
+        val = gandalf.robot.ALMemory.getData(face_detected_mem_value)
         name = _face_already_known(gandalf, val)
 
     gandalf.face_in_front = True
