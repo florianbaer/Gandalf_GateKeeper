@@ -7,8 +7,8 @@ from Project.excercises.file_transfer import FileTransfer
 
 def validation_card_reading(gandalf):
     remote_folder_path = "/home/nao/recordings/cameras/"
-    file_name = "gatekeeper.jpeg"
-    local = "/Users/jabbathegut/Downloads/" + file_name
+    file_name = "validation_card.jpeg"
+    local = file_name
     camera = Camera(gandalf.robot)
 
     # configure text to speech
@@ -36,12 +36,13 @@ def validation_card_reading(gandalf):
     mask = cv2.inRange(hsv, lower_color, upper_color)
     contours, h = cv2.findContours(mask, 1, 2)
 
+    if gandalf.testing_mode:
     # just used for testing purposes
-    cv2.imshow('img', img)
-    cv2.imshow('hsv', hsv)
-    cv2.imshow('mask', mask)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        cv2.imshow('img', img)
+        cv2.imshow('hsv', hsv)
+        cv2.imshow('mask', mask)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     triangle_detected = False
     square_detected = False
@@ -54,8 +55,11 @@ def validation_card_reading(gandalf):
             square_detected = True
 
     if triangle_detected:
+        gandalf.allowed_people_dict[gandalf.current_person] = True
         gandalf.robot.ALTextToSpeech.say("Perfect, enjoy your stay.")
     elif square_detected:
+        gandalf.allowed_people_dict[gandalf.current_person] = False
         gandalf.robot.ALTextToSpeech.say("I'm sorry, but I can't grant you access... Please go ahead.")
     else:
+        gandalf.allowed_people_dict[gandalf.current_person] = False
         gandalf.robot.ALTextToSpeech.say("I didn't recognize anything.")

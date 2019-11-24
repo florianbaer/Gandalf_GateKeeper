@@ -11,11 +11,15 @@ class Gandalf(object):
 
     face_in_front = False
     wants_to_enter = None
+    testing_mode = False
+    allowed_people_dict = {}
+    current_person = None
 
     STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card"]
 
-    def __init__(self, robot):
+    def __init__(self, robot, testing_mode=False):
         self.robot = robot
+        self.testing_mode = testing_mode
 
         # Initialize the state machine
         self.state_machine = Machine(model=self, states=self.STATES, queued=True, initial="start")
