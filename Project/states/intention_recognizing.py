@@ -10,7 +10,7 @@ def intention_recognizing(gandalf):
     dialog = Dialog(gandalf.robot)
 
     # configure text to speech
-    gandalf.robot.ALTextToSpeech.setVolume(0.5)
+    gandalf.robot.ALTextToSpeech.setVolume(1)
 
     # simple yes no question
     topic_name = dialog.load_yes_no_question("Do you want to enter?", "Cool", "Pity")

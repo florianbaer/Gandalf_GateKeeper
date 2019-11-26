@@ -6,13 +6,24 @@ from Project.excercises.file_transfer import FileTransfer
 
 
 def validation_card_reading(gandalf):
+
+    if not gandalf.allowed_people_dict.has_key(gandalf.current_person):
+        check_validation_card(gandalf)
+    elif gandalf.allowed_people_dict[gandalf.current_person]:
+        gandalf.robot.ALTextToSpeech.say("Nice, your access is granted. I remember you from before!")
+        gandalf.trigger("move_to_side")
+    else:
+        gandalf.robot.ALTextToSpeech.say("You shall not pass!")
+        gandalf.trigger("re_initialize")
+
+
+def check_validation_card(gandalf):
+    camera = Camera(gandalf.robot)
     remote_folder_path = "/home/nao/recordings/cameras/"
     file_name = "validation_card.jpeg"
     local = file_name
-    camera = Camera(gandalf.robot)
-
     # configure text to speech
-    gandalf.robot.ALTextToSpeech.setVolume(0.5)
+    gandalf.robot.ALTextToSpeech.setVolume(1)
     gandalf.robot.ALTextToSpeech.setLanguage("English")
     gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card.")
     gandalf.robot.ALTextToSpeech.say("Please hold your card in front of my eyes and keep it still.")
@@ -57,9 +68,12 @@ def validation_card_reading(gandalf):
     if triangle_detected:
         gandalf.allowed_people_dict[gandalf.current_person] = True
         gandalf.robot.ALTextToSpeech.say("Perfect, enjoy your stay.")
+        gandalf.trigger('move_to_side')
     elif square_detected:
         gandalf.allowed_people_dict[gandalf.current_person] = False
         gandalf.robot.ALTextToSpeech.say("I'm sorry, but I can't grant you access... Please go ahead.")
+        gandalf.trigger('deny_access')
     else:
         gandalf.allowed_people_dict[gandalf.current_person] = False
-        gandalf.robot.ALTextToSpeech.say("I didn't recognize anything.")
+        gandalf.robot.ALTextToSpeech.say("I didn't recognize anything. We have to try again.")
+        gandalf.trigger('validate_entry')
