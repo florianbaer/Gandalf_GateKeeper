@@ -3,6 +3,7 @@ import random
 import time
 
 from Project.excercises.dialog import Dialog
+from Project.movements import movement
 
 FACE_CHECK = "Test_Face"
 FACE_DETECTED_MEM_VALUE = "FaceDetected"
@@ -17,22 +18,15 @@ def _face_already_known(gandalf, val):
 
 
 def get_count_of_faces_in_front(val):
-    logging.debug(val)
-    return len(val) >= 2 and len(val[1][1])
+    faces_detected = 0
 
-def ensure_human_is_ready(count, dialog):
-    question_text = "Are you ready"
+    if 0 != len(val[1]):  # an additional array has been placed at the end for time
+        faces_detected = len(val[1]) - 1  # filtered info and has to be substracted when counting faces
 
-    if count == 0:
-        question_text = question_text + "?"
-    else:
-        question_text = question_text + " now ?"
+        if faces_detected != 0:
+            return faces_detected
 
-    topic_name = dialog.load_yes_no_question(question_text, "Good", "Okay")
-    answer = dialog.ask_yes_no_question(topic_name)
-    dialog.stop_topic(topic_name)
-    dialog.close_session()
-    return answer
+    return faces_detected
 
 
 def recognizing_face(gandalf):
@@ -45,6 +39,7 @@ def recognizing_face(gandalf):
 
     # get face data related to the given MEM_VALUE
     val = gandalf.robot.ALMemory.getData(FACE_DETECTED_MEM_VALUE)
+    movement.face_up(gandalf, -20)
 
     # A simple loop that reads the memValue and checks whether faces are detected.
     while not (val and isinstance(val, list) and len(val) >= 2):
@@ -56,6 +51,16 @@ def recognizing_face(gandalf):
     number_of_faces = get_count_of_faces_in_front(val)
     logging.debug("Number of faces is: ")
     logging.debug(number_of_faces)
+
+    if number_of_faces > 1:
+        if gandalf.force_make_queue:
+            gandalf.robot.ALAnimatedSpeech.say(
+                'I just told you to make a queue. So please step back!')
+        gandalf.force_make_queue = True
+        gandalf.robot.ALAnimatedSpeech.say('There should only be one person in front of me, so please make a queue.')
+        gandalf.trigger("detecting_face")
+
+    # Check whether we got a valid output.
     logging.info("face found")
     gandalf.face_in_front = True
 
@@ -70,6 +75,7 @@ def recognizing_face(gandalf):
         name = 'Peter{}'.format(rand)
         gandalf.robot.ALAnimatedSpeech.say('I don\'t know you, but i will learn you: {}'.format(name))
         gandalf.robot.ALAnimatedSpeech.say('Please look in my eyes, so i can learn recognizing you. i will tell you when i am done'.format(name))
+        movement.face_up(gandalf, -20)
 
         # make sure human is ready, max number of tries is 2
         dialog = Dialog(gandalf.robot)
@@ -96,5 +102,3 @@ def recognizing_face(gandalf):
         else:
             gandalf.robot.ALAnimatedSpeech.say("Alright then, we have to try again. let's start again")
             gandalf.trigger("detecting_face")
-
-
