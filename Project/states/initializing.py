@@ -1,10 +1,14 @@
 import logging
+
+from Project.movements import movement
+
 DISABLED = 'disabled'
 
 
 def initializing(gandalf):
 
     gandalf.robot.ALTextToSpeech.setLanguage("English")
+
     say = "initializing"
     logging.info(say)
     # configure text to speech

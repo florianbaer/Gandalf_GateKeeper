@@ -16,6 +16,7 @@ class Gandalf(object):
     testing_mode = False
     allowed_people_dict = {}
     current_person = None
+    force_make_queue = False
 
     STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card", "on_side", "access_denied"]
 
