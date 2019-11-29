@@ -7,9 +7,9 @@ def starting_up(gandalf):
     logging.info(say)
 
     if gandalf.testing_mode:
-    gandalf.robot.ALTextToSpeech.setLanguage("English")
-    gandalf.robot.ALTextToSpeech.setVolume(1)
-    gandalf.robot.ALAnimatedSpeech.say(say)
+        gandalf.robot.ALTextToSpeech.setLanguage("English")
+        gandalf.robot.ALTextToSpeech.setVolume(1)
+        gandalf.robot.ALAnimatedSpeech.say(say)
 
     # trigger next state
     gandalf.trigger('initializing')

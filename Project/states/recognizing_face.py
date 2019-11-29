@@ -28,6 +28,21 @@ def get_count_of_faces_in_front(val):
 
     return faces_detected
 
+def ensure_human_is_ready(count, dialog):
+    question_text = "Are you ready"
+
+    if count == 0:
+        question_text = question_text + "?"
+    else:
+        question_text = question_text + " now ?"
+
+    topic_name = dialog.load_yes_no_question(question_text, "Good", "Okay")
+    answer = dialog.ask_yes_no_question(topic_name)
+    dialog.stop_topic(topic_name)
+    dialog.close_session()
+    return answer
+
+
 
 def recognizing_face(gandalf):
     name = None

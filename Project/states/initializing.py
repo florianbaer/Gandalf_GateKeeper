@@ -14,9 +14,9 @@ def initializing(gandalf):
 
     # configure text to speech
     if gandalf.testing_mode:
-    gandalf.robot.ALTextToSpeech.setLanguage("English")
-    gandalf.robot.ALTextToSpeech.setVolume(1)
-    gandalf.robot.ALTextToSpeech.say(say)
+        gandalf.robot.ALTextToSpeech.setLanguage("English")
+        gandalf.robot.ALTextToSpeech.setVolume(1)
+        gandalf.robot.ALTextToSpeech.say(say)
 
     # make sure autonomous life is disabled and pepper is standing upright
     if gandalf.robot.ALAutonomousLife.getState() != DISABLED:
