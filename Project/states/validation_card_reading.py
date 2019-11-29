@@ -27,6 +27,7 @@ def check_validation_card(gandalf):
     gandalf.robot.ALTextToSpeech.setLanguage("English")
     gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card.")
     gandalf.robot.ALTextToSpeech.say("Please hold your card in front of my eyes and keep it still.")
+
     time.sleep(2)
     gandalf.robot.ALTextToSpeech.say("Now I'm taking the picture.")
 

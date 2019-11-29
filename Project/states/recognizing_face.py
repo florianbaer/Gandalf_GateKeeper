@@ -19,15 +19,6 @@ def get_count_of_faces_in_front(val):
     logging.debug(val)
     return len(val) >= 2 and len(val[1][1])
 
-
-def hands_down(gandalf):
-    pass
-
-
-def face_up(gandalf):
-    pass
-
-
 def recognizing_face(gandalf):
     gandalf.robot.ALTextToSpeech.setLanguage("English")
 
@@ -65,9 +56,8 @@ def recognizing_face(gandalf):
         gandalf.robot.ALAnimatedSpeech.say('I don\'t know you yet, but i will learn you for the future.')
         gandalf.robot.ALAnimatedSpeech.say('Please look in my eyes, so i can learn recognizing you.'
                                            ' I will tell you when i\'m done.')
-
-        hands_down(gandalf)
-        face_up(gandalf)
+        gandalf.hands_down()
+        gandalf.face_up(gandalf)
 
         success = gandalf.robot.ALFaceDetection.learnFace(name)
 
@@ -80,9 +70,3 @@ def recognizing_face(gandalf):
         else:
             gandalf.robot.ALAnimatedSpeech.say('we have to try again')
             gandalf.trigger("detecting_face")
-
-
-
-    # Trigger transition
-    # gandalf.trigger("detecting_face")
-

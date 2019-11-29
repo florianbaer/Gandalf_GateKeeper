@@ -8,8 +8,9 @@ def initializing(gandalf):
     say = "initializing"
     logging.info(say)
     # configure text to speech
-    gandalf.robot.ALTextToSpeech.setVolume(1)
-    gandalf.robot.ALTextToSpeech.say(say)
+    if gandalf.testing_mode:
+        gandalf.robot.ALTextToSpeech.setVolume(1)
+        gandalf.robot.ALTextToSpeech.say(say)
 
     if gandalf.robot.ALAutonomousLife.getState() != DISABLED:
         gandalf.robot.ALAutonomousLife.setState(DISABLED)

@@ -7,7 +7,7 @@ from Project.states.recognizing_face import recognizing_face
 from Project.states.starting_up import starting_up
 from Project.states.intention_recognizing import intention_recognizing
 from Project.states.validation_card_reading import validation_card_reading
-
+import logging
 
 class Gandalf(object):
 
@@ -84,10 +84,3 @@ class Gandalf(object):
             after=lambda *args, **kwargs: initializing(self, *args, **kwargs)
         )
 
-
-
-    def wants_to_enter(self):
-        return self.wants_to_enter
-
-    def _next_state(self):
-        return self.next_state()
