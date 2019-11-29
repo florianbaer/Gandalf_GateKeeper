@@ -3,6 +3,8 @@ DISABLED = 'disabled'
 
 
 def initializing(gandalf):
+
+    gandalf.robot.ALTextToSpeech.setLanguage("English")
     say = "initializing"
     logging.info(say)
     # configure text to speech
@@ -14,7 +16,7 @@ def initializing(gandalf):
         gandalf.robot.ALRobotPosture.goToPosture("Stand", 0.8)
     # caution: collision system disabled!
     gandalf.robot.ALMotion.setExternalCollisionProtectionEnabled("Move", False)
-    if gandalf.delete_faces:
+    if gandalf.testing_mode:
         for face in gandalf.robot.ALFaceDetection.getLearnedFacesList():
             gandalf.robot.ALFaceDetection.forgetPerson(face)
             gandalf.robot.ALTextToSpeech.say('Instant alzheimer')

@@ -1,6 +1,8 @@
 import logging
 
 def starting_up(gandalf):
+
+    gandalf.robot.ALTextToSpeech.setLanguage("English")
     say = "Starting up"
     logging.info(say)
 
