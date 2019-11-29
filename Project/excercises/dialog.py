@@ -10,7 +10,7 @@ class Dialog:
         self.__al_dialog.setLanguage("English")
         self.__al_audio = robot.ALAudioDevice
         self.__al_dialog.openSession(self.__my_id)
-        self.__question_number = 0
+        self.__dialog_id = 0
         speech_recognition = robot.session.service("ALSpeechRecognition")
         speech_recognition.pause(True)
         speech_recognition.setParameter("Sensitivity", 0.35)
@@ -44,8 +44,8 @@ class Dialog:
         return topic_name
 
     def load_yes_no_question(self, question, reaction_yes, reaction_no):
-        self.__question_number += 1
-        topic_name = "yes_no_question" + str(self.__question_number)
+        self.__dialog_id = str(time.time())
+        topic_name = "yes_no_question" + str(self.__dialog_id)
         topic_content = ('topic: ~' + topic_name + '()\n'
                          'language: enu\n'
                          'proposal: ' + question + '\n'
