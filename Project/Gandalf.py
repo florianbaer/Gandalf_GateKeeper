@@ -7,7 +7,6 @@ from Project.states.recognizing_face import recognizing_face
 from Project.states.starting_up import starting_up
 from Project.states.intention_recognizing import intention_recognizing
 from Project.states.validation_card_reading import validation_card_reading
-import logging
 
 class Gandalf(object):
 
@@ -19,7 +18,7 @@ class Gandalf(object):
     delete_faces = True
     force_make_queue = False
 
-    STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card", "on_side", "access_denied"]
+    STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card", "on_side"]
 
     def __init__(self, robot, testing_mode=False):
         self.robot = robot
@@ -71,13 +70,6 @@ class Gandalf(object):
             source="on_side",
             dest="initialized",
             after=lambda *args, **kwargs: move_back(self, *args, **kwargs)
-        )
-
-        self.state_machine.add_transition(
-            trigger="deny_access",
-            source="validate_card",
-            dest="access_denied",
-            after=lambda *args, **kwargs: initializing(self, *args, **kwargs)
         )
 
         self.state_machine.add_transition(

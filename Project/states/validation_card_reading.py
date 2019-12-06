@@ -8,14 +8,11 @@ from Project.excercises.file_transfer import FileTransfer
 
 def validation_card_reading(gandalf):
 
-    if not gandalf.allowed_people_dict.has_key(gandalf.current_person):
-        check_validation_card(gandalf)
-    elif gandalf.allowed_people_dict[gandalf.current_person]:
+    if gandalf.current_person in gandalf.allowed_people_dict and gandalf.allowed_people_dict[gandalf.current_person]:
         gandalf.robot.ALTextToSpeech.say("Nice, your access is granted. I remember you from before!")
         gandalf.trigger("move_to_side")
     else:
-        gandalf.robot.ALTextToSpeech.say("You shall not pass!")
-        gandalf.trigger("re_initialize")
+        check_validation_card(gandalf)
 
 def ensure_human_is_ready(count, dialog):
         question_text = "Are you ready"
@@ -40,8 +37,7 @@ def check_validation_card(gandalf):
     # configure text to speech
     gandalf.robot.ALTextToSpeech.setVolume(1)
     gandalf.robot.ALTextToSpeech.setLanguage("English")
-    gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card.")
-    gandalf.robot.ALTextToSpeech.say("Please hold your card in front of my eyes and keep it still.")
+    gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card. Please hold your card in front of my eyes and keep it still.")
 
     # make sure human is ready, max number of tries is 2
     dialog = Dialog(gandalf.robot)
@@ -50,7 +46,7 @@ def check_validation_card(gandalf):
         ready = ensure_human_is_ready(count, dialog)
         count = count + 1
 
-        if count != 2:
+        if count != 2 and not int(ready):
             time.sleep(1)
 
     if int(ready):
@@ -98,7 +94,7 @@ def check_validation_card(gandalf):
         elif square_detected:
             gandalf.allowed_people_dict[gandalf.current_person] = False
             gandalf.robot.ALTextToSpeech.say("I'm sorry, but I can't grant you access... Please go ahead.")
-            gandalf.trigger('deny_access')
+            gandalf.trigger('re_initialize')
         else:
             gandalf.allowed_people_dict[gandalf.current_person] = False
             gandalf.robot.ALTextToSpeech.say("I didn't recognize anything. We have to try again.")
