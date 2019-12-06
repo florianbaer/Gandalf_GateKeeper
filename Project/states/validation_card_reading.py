@@ -7,26 +7,26 @@ from Project.excercises.file_transfer import FileTransfer
 
 
 def validation_card_reading(gandalf):
-
     if gandalf.current_person in gandalf.allowed_people_dict and gandalf.allowed_people_dict[gandalf.current_person]:
         gandalf.robot.ALTextToSpeech.say("Nice, your access is granted. I remember you from before!")
         gandalf.trigger("move_to_side")
     else:
         check_validation_card(gandalf)
 
+
 def ensure_human_is_ready(count, dialog):
-        question_text = "Are you ready"
+    question_text = "Are you ready"
 
-        if count == 0:
-            question_text = question_text + "?"
-        else:
-            question_text = question_text + " now ?"
+    if count == 0:
+        question_text = question_text + "?"
+    else:
+        question_text = question_text + " now ?"
 
-        topic_name = dialog.load_yes_no_question(question_text, "Good", "Okay")
-        answer = dialog.ask_yes_no_question(topic_name)
-        dialog.stop_topic(topic_name)
-        dialog.close_session()
-        return answer
+    topic_name = dialog.load_yes_no_question(question_text, "Good", "Okay")
+    answer = dialog.ask_yes_no_question(topic_name)
+    dialog.stop_topic(topic_name)
+    dialog.close_session()
+    return answer
 
 
 def check_validation_card(gandalf):
@@ -37,7 +37,8 @@ def check_validation_card(gandalf):
     # configure text to speech
     gandalf.robot.ALTextToSpeech.setVolume(1)
     gandalf.robot.ALTextToSpeech.setLanguage("English")
-    gandalf.robot.ALTextToSpeech.say("I'm going to have a look at your validation card. Please hold your card in front of my eyes and keep it still.")
+    gandalf.robot.ALTextToSpeech.say(
+        "I'm going to have a look at your validation card. Please hold your card in front of my eyes and keep it still.")
 
     # make sure human is ready, max number of tries is 2
     dialog = Dialog(gandalf.robot)
@@ -50,8 +51,6 @@ def check_validation_card(gandalf):
             time.sleep(1)
 
     if int(ready):
-        gandalf.robot.ALTextToSpeech.say("Now I'll have a close look at your card...")
-
         # take a picture
         camera.take_picture(remote_folder_path, file_name)
 
@@ -104,8 +103,3 @@ def check_validation_card(gandalf):
         gandalf.allowed_people_dict[gandalf.current_person] = False
         gandalf.robot.ALTextToSpeech.say("I dont think that this will work... Let's start again.")
         gandalf.trigger('validate_entry')
-
-
-
-
-
