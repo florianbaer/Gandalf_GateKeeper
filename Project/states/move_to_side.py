@@ -17,7 +17,7 @@ def move_to_side(gandalf):
 
     while lef_side_y < 0.5:
         lef_side_y = gandalf.robot.ALMemory.getData("Device/SubDeviceList/Platform/LaserSensor/Left/Horizontal/Seg01/Y/Sensor/Value")
-        gandalf.robot.ALAnimatedSpeech.say("There's an obstacle to my left, move me to my right please.")
+        gandalf.robot.ALAnimatedSpeech.say("There's an obstacle to my left, move the obstacle away please.")
         time.sleep(2)
 
     # for some reason almath is not available..

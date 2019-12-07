@@ -39,7 +39,7 @@ def check_validation_card(gandalf):
     # configure text to speech
     gandalf.robot.ALTextToSpeech.setVolume(1)
     gandalf.robot.ALTextToSpeech.setLanguage("English")
-    gandalf.robot.ALTextToSpeech.say(
+    gandalf.robot.ALAnimatedSpeech.say(
         "I'm going to have a look at your validation card. Please hold your card in front of my eyes and keep it still.")
 
     # make sure human is ready, max number of tries is 2

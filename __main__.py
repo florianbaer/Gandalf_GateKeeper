@@ -7,7 +7,7 @@ import sys
 # configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-config = PepperConfiguration("Amber")
+config = PepperConfiguration("Porter")
 robot = Robot(config)
 
 if __name__ == "__main__":
