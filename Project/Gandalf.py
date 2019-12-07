@@ -8,8 +8,8 @@ from Project.states.starting_up import starting_up
 from Project.states.intention_recognizing import intention_recognizing
 from Project.states.validation_card_reading import validation_card_reading
 
-class Gandalf(object):
 
+class Gandalf(object):
     face_in_front = False
     wants_to_enter = None
     testing_mode = False
@@ -78,4 +78,3 @@ class Gandalf(object):
             dest="initialized",
             after=lambda *args, **kwargs: initializing(self, *args, **kwargs)
         )
-

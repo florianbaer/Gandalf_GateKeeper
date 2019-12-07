@@ -2,15 +2,15 @@ import logging
 import random
 import time
 
-from Project.excercises.dialog import Dialog
-from Project.movements import movement
+from Project.helper.dialog import Dialog
+from Project.helper import movement
 
 FACE_CHECK = "Test_Face"
 FACE_DETECTED_MEM_VALUE = "FaceDetected"
 
 
 def _face_already_known(gandalf, val):
-    if (val and isinstance(val, list) and len(val) >= 2 and len(val[1][1]) > 0):
+    if val and isinstance(val, list) and len(val) >= 2 and len(val[1][1]) > 0:
         logging.debug(val[1][1][1][0])
         return val[1][1][1][0]
     logging.debug(val)
@@ -28,6 +28,7 @@ def get_count_of_faces_in_front(val):
 
     return faces_detected
 
+
 def ensure_human_is_ready(count, dialog):
     question_text = "Are you ready"
 
@@ -43,9 +44,9 @@ def ensure_human_is_ready(count, dialog):
     return answer
 
 
-
 def recognizing_face(gandalf):
     name = None
+    dialog = Dialog(gandalf.robot)
     gandalf.robot.ALTextToSpeech.setLanguage("English")
 
     # subscribe to the face detection service
@@ -62,8 +63,6 @@ def recognizing_face(gandalf):
         name = _face_already_known(gandalf, val)
 
     movement.face_up(gandalf, -20)
-
-    # Check whether we got a valid output.
     logging.info("face found")
     gandalf.face_in_front = True
 
@@ -71,7 +70,6 @@ def recognizing_face(gandalf):
     number_of_faces = get_count_of_faces_in_front(val)
     logging.debug("Number of faces is: ")
     logging.debug(number_of_faces)
-
 
     if number_of_faces > 1:
         if gandalf.force_make_queue:
@@ -94,7 +92,6 @@ def recognizing_face(gandalf):
         movement.face_up(gandalf, -20)
 
         # make sure human is ready, max number of tries is 2
-        dialog = Dialog(gandalf.robot)
         count, ready = 0, 0
         while int(ready) == 0 and count < 2:
             ready = ensure_human_is_ready(count, dialog)
@@ -104,7 +101,6 @@ def recognizing_face(gandalf):
                 time.sleep(1)
 
         if int(ready):
-            gandalf.robot.ALAnimatedSpeech.say("Starting to learn.")
             success = gandalf.robot.ALFaceDetection.learnFace(name)
         else:
             success = False

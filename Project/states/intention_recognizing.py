@@ -1,6 +1,6 @@
 import logging
 
-from Project.excercises.dialog import Dialog
+from Project.helper.dialog import Dialog
 
 
 def intention_recognizing(gandalf):

@@ -1,7 +1,7 @@
 import logging
 import time
 
-from Project.movements import movement
+from Project.helper import movement
 
 DISABLED = 'disabled'
 
