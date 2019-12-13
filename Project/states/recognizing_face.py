@@ -30,7 +30,7 @@ def get_count_of_faces_in_front(val):
 
 
 def ensure_human_is_ready(count, dialog):
-    question_text = "Are you ready"
+    question_text = "May I"
 
     if count == 0:
         question_text = question_text + "?"
@@ -51,7 +51,7 @@ def recognizing_face(gandalf):
 
     # subscribe to the face detection service
     logging.info("recognizing face")
-    gandalf.robot.ALFaceDetection.subscribe(FACE_CHECK, 2000, 0.0)
+    gandalf.robot.ALFaceDetection.subscribe(FACE_CHECK, 2000, 0.5)
 
     # get face data related to the given MEM_VALUE
     val = gandalf.robot.ALMemory.getData(FACE_DETECTED_MEM_VALUE)
@@ -88,7 +88,7 @@ def recognizing_face(gandalf):
     else:
         rand = random.randint(0, 50000000)
         name = 'Peter{}'.format(rand)
-        gandalf.robot.ALAnimatedSpeech.say('I don\'t know you, but I\'ll try to learn your face.')
+        gandalf.robot.ALAnimatedSpeech.say('I don\'t know you yet, let me take a closer look at you.')
         movement.face_up(gandalf, -20)
 
         # make sure human is ready, max number of tries is 2
