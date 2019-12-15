@@ -10,15 +10,15 @@ from Project.states.validation_card_reading import validation_card_reading
 
 
 class Gandalf(object):
-
     face_in_front = False
     wants_to_enter = None
     testing_mode = False
     allowed_people_dict = {}
     current_person = None
-    delete_faces = False
+    delete_faces = True
+    force_make_queue = False
 
-    STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card", "on_side", "access_denied"]
+    STATES = ["start", "started", "initialized", "face_detected", "intention_recognized", "validate_card", "on_side"]
 
     def __init__(self, robot, testing_mode=False):
         self.robot = robot
@@ -54,10 +54,11 @@ class Gandalf(object):
 
         self.state_machine.add_transition(
             trigger="validate_entry",
-            source="intention_recognized",
+            source=["intention_recognized", "validate_card"],
             dest="validate_card",
             after=lambda *args, **kwargs: validation_card_reading(self, *args, **kwargs)
         )
+
         self.state_machine.add_transition(
             trigger="move_to_side",
             source="validate_card",
@@ -72,23 +73,8 @@ class Gandalf(object):
         )
 
         self.state_machine.add_transition(
-            trigger="deny_access",
-            source="validate_card",
-            dest="access_denied",
-            after=lambda *args, **kwargs: initializing(self, *args, **kwargs)
-        )
-
-        self.state_machine.add_transition(
             trigger="re_initialize",
             source="*",
             dest="initialized",
             after=lambda *args, **kwargs: initializing(self, *args, **kwargs)
         )
-
-
-
-    def wants_to_enter(self):
-        return self.wants_to_enter
-
-    def _next_state(self):
-        return self.next_state()
